@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "114218863625",
+    "project_id": "messenger-mpv",
+    "storage_bucket": "messenger-mpv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114218863625:android:a837e7a396177e980afcd8",
+        "android_client_info": {
+          "package_name": "com.mycompany.newsecurechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114218863625-f6vksfr78s73vdfo3sfghge957484lfp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.newsecurechat",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "114218863625-bccb82qj8ma5iat9jrbain2o4qjt5sc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSo_bTgWP-PzuHLr4ZVw3aQYwjAPaJgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114218863625-bccb82qj8ma5iat9jrbain2o4qjt5sc7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "114218863625-bsqldvsodkpe023dcfpp5gnfg3i8nl8u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.securechatapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114218863625:android:d78570597d9a08730afcd8",
+        "android_client_info": {
+          "package_name": "com.mycompany.securechatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114218863625-pqcgsiu8unrco0rbkdv4jdd6d9m3gc3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.securechatapp",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "114218863625-bccb82qj8ma5iat9jrbain2o4qjt5sc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSo_bTgWP-PzuHLr4ZVw3aQYwjAPaJgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114218863625-bccb82qj8ma5iat9jrbain2o4qjt5sc7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "114218863625-bsqldvsodkpe023dcfpp5gnfg3i8nl8u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.securechatapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,2 @@
+C:/Users/mahaw/Desktop/BOSS/Chat3 2503/appchat_25_3_2025/appchat/android/app/.cxx/RelWithDebInfo/6m3s3dr2/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/mahaw/Desktop/BOSS/Chat3 2503/appchat_25_3_2025/appchat/android/app/.cxx/RelWithDebInfo/6m3s3dr2/arm64-v8a/CMakeFiles/rebuild_cache.dir
