@@ -1,7 +1,0 @@
-#Thu Mar 27 13:48:00 ICT 2025
-base.0=C\:\\Users\\mahaw\\Desktop\\BOSS\\AppChat2703\\appchat_25_3_2025\\appchat\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
-base.1=C\:\\Users\\mahaw\\Desktop\\BOSS\\AppChat2703\\appchat_25_3_2025\\appchat\\build\\app\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes2.dex
-path.0=classes.dex
-path.1=classes2.dex
-renamed.0=classes.dex
-renamed.1=classes2.dex

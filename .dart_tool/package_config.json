@@ -170,6 +170,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "dart_webrtc",
+      "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/dart_webrtc-1.5.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "dbus",
       "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/dbus-0.7.11",
       "packageUri": "lib/",
@@ -404,6 +410,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "flutter_webrtc",
+      "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_webrtc-0.9.48+hotfix.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "font_awesome_flutter",
       "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/font_awesome_flutter-10.7.0",
       "packageUri": "lib/",
@@ -546,6 +558,12 @@
       "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/iregexp-0.1.2",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.7.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
     },
     {
       "name": "json_annotation",
@@ -784,6 +802,12 @@
     {
       "name": "rxdart",
       "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/rxdart-0.27.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "sdp_transform",
+      "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/sdp_transform-0.3.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -1046,6 +1070,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "webrtc_interface",
+      "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/webrtc_interface-1.2.2+hotfix.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "win32",
       "rootUri": "file:///C:/Users/Work/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.5.1",
       "packageUri": "lib/",
@@ -1076,7 +1106,7 @@
       "languageVersion": "3.0"
     }
   ],
-  "generated": "2025-03-27T07:38:22.753896Z",
+  "generated": "2025-03-27T10:43:52.503124Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/Users/Work/Desktop/flutter",
