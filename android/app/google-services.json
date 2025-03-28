@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114218863625",
+    "project_id": "messenger-mpv",
+    "storage_bucket": "messenger-mpv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114218863625:android:f6da557dbf8db5850afcd8",
+        "android_client_info": {
+          "package_name": "com.securechat.messenger2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_IwJm1GyK2PBOLkNZI9-EpDKcDHFs5Iw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+} 
