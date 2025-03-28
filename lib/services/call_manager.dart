@@ -17,6 +17,9 @@ class CallManager {
   final WebRTCService _webRTCService = WebRTCService();
   final CallNotificationService _notificationService = CallNotificationService();
   
+  // Getters สำหรับเข้าถึงบริการจากภายนอก
+  WebRTCService get webRTCService => _webRTCService;
+  
   // Active call data
   String? _activeCallId;
   String? _remoteUserId;

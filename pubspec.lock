@@ -237,10 +237,10 @@ packages:
     dependency: transitive
     description:
       name: dart_webrtc
-      sha256: "5897a3bdd6c7fded07e80e250260ca4c9cd61f9080911aa308b516e1206745a9"
+      sha256: "8949301071ac7c3fb8f78ef7dffc48652db16f2ec63d84078b608f2ca27cca38"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.3"
+    version: "1.0.17"
   dbus:
     dependency: transitive
     description:
@@ -538,26 +538,26 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: "293995f94e120c8afce768981bd1fa9c5d6de67c547568e3b42ae2defdcbb4a0"
+      sha256: "57d0012730780fe137260dd180e072c18a73fbeeb924cdc029c18aaa0f338d64"
       url: "https://pub.dev"
     source: hosted
-    version: "13.0.0"
+    version: "9.9.1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
       name: flutter_local_notifications_linux
-      sha256: ccb08b93703aeedb58856e5637450bf3ffec899adb66dc325630b68994734b89
+      sha256: b472bfc173791b59ede323661eae20f7fff0b6908fea33dd720a6ef5d576bae8
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0+1"
+    version: "0.5.1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
       name: flutter_local_notifications_platform_interface
-      sha256: "5ec1feac5f7f7d9266759488bc5f76416152baba9aa1b26fe572246caa00d1ab"
+      sha256: "21bceee103a66a53b30ea9daf677f990e5b9e89b62f222e60dd241cd08d63d3a"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "5.0.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -593,10 +593,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_webrtc
-      sha256: da6fb0f0f9515b2c64608011e3ad314e6a858bbf1c57477f418621996e7d22d2
+      sha256: "4a3194900981ac7a2aa1e68a37903d8910cc3459c7a1ab68ad0407310cea1642"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.45"
+    version: "0.9.34"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -1374,10 +1374,10 @@ packages:
     dependency: transitive
     description:
       name: timezone
-      sha256: "2236ec079a174ce07434e89fcd3fcda430025eb7692244139a9cf54fdcf1fc7d"
+      sha256: "57b35f6e8ef731f18529695bffc62f92c6189fac2e52c12d478dec1931afb66e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.8.0"
   typed_data:
     dependency: transitive
     description:
@@ -1558,10 +1558,10 @@ packages:
     dependency: transitive
     description:
       name: webrtc_interface
-      sha256: "2efbd3e4e5ebeb2914253bcc51dafd3053c4b87b43f3076c74835a9deecbae3a"
+      sha256: "0ac4693f921c81005edefd2f43b9fe84b0ed54481474fe1ee16b789b0c84a77c"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.0.13"
   win32:
     dependency: "direct overridden"
     description:

@@ -14,26 +14,29 @@ class WebRTCService {
   List<RTCIceCandidate> _pendingCandidates = [];
   bool _isCallActive = false;
   
+  // สถานะการโทร
+  String _callStatus = 'idle';
+  String get callStatus => _callStatus;
+  
   // Callbacks
   Function(MediaStream)? onLocalStreamAvailable;
   Function(MediaStream)? onRemoteStreamAvailable;
   Function(RTCPeerConnectionState)? onConnectionStateChange;
   Function()? onCallEnded;
   Function(RTCIceCandidate)? onIceCandidate;
+  Function(String)? onCallStatusChanged; // Callback สำหรับการเปลี่ยนแปลงสถานะการโทร
 
   // Initialize WebRTC service
   Future<void> initialize() async {
     try {
+      _callStatus = 'idle';
+      _notifyCallStatusChanged();
+      
       // Configuration for RTCPeerConnection
       final configuration = {
         'iceServers': [
           {'urls': 'stun:stun.l.google.com:19302'},
           {'urls': 'stun:stun1.l.google.com:19302'},
-          {
-            'urls': 'turn:global.turn.twilio.com:3478?transport=udp',
-            'username': 'your_username',
-            'credential': 'your_password'
-          }
         ]
       };
       
@@ -47,6 +50,33 @@ class WebRTCService {
           onIceCandidate!(candidate);
         } else {
           _pendingCandidates.add(candidate);
+        }
+      };
+      
+      // เพิ่มการจัดการสถานะ ICE Connection
+      _peerConnection?.onIceConnectionState = (RTCIceConnectionState state) {
+        log("ICE connection state changed: ${state.toString()}");
+        
+        switch (state) {
+          case RTCIceConnectionState.RTCIceConnectionStateConnected:
+            _callStatus = 'connected';
+            _notifyCallStatusChanged();
+            break;
+          case RTCIceConnectionState.RTCIceConnectionStateChecking:
+            _callStatus = 'connecting';
+            _notifyCallStatusChanged();
+            break;
+          case RTCIceConnectionState.RTCIceConnectionStateFailed:
+            _callStatus = 'connection_failed';
+            _notifyCallStatusChanged();
+            break;
+          case RTCIceConnectionState.RTCIceConnectionStateDisconnected:
+            _callStatus = 'disconnected';
+            _notifyCallStatusChanged();
+            break;
+          default:
+            // ไม่ต้องเปลี่ยนสถานะสำหรับสถานะอื่นๆ
+            break;
         }
       };
       
@@ -67,6 +97,8 @@ class WebRTCService {
       // Listen for remote streams
       _peerConnection?.onAddStream = (MediaStream stream) {
         log("Remote stream added");
+        _callStatus = 'connected';
+        _notifyCallStatusChanged();
         if (onRemoteStreamAvailable != null) {
           onRemoteStreamAvailable!(stream);
         }
@@ -75,8 +107,18 @@ class WebRTCService {
       log("WebRTC service initialized");
     } catch (e) {
       log("Error initializing WebRTC service: $e");
+      _callStatus = 'error';
+      _notifyCallStatusChanged();
       rethrow;
     }
+  }
+  
+  // แจ้งเตือนการเปลี่ยนแปลงสถานะการโทร
+  void _notifyCallStatusChanged() {
+    if (onCallStatusChanged != null) {
+      onCallStatusChanged!(_callStatus);
+    }
+    log("Call status changed: $_callStatus");
   }
   
   // Get pending ICE candidates
@@ -94,13 +136,20 @@ class WebRTCService {
       'video': false
     };
     
-    _localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
-    
-    if (onLocalStreamAvailable != null) {
-      onLocalStreamAvailable!(_localStream!);
+    try {
+      _localStream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
+      
+      if (onLocalStreamAvailable != null) {
+        onLocalStreamAvailable!(_localStream!);
+      }
+      
+      return _localStream!;
+    } catch (e) {
+      log("Error getting user media: $e");
+      _callStatus = 'media_error';
+      _notifyCallStatusChanged();
+      rethrow;
     }
-    
-    return _localStream!;
   }
   
   // Make an outgoing call
@@ -110,6 +159,9 @@ class WebRTCService {
     }
     
     try {
+      _callStatus = 'calling';
+      _notifyCallStatusChanged();
+      
       // Create local stream if not available
       if (_localStream == null) {
         await _createLocalStream();
@@ -132,9 +184,14 @@ class WebRTCService {
       _isCallActive = true;
       log("Outgoing call offer created");
       
+      // รอเพื่อให้ได้ ICE Candidates ที่ดีที่สุด
+      await Future.delayed(Duration(milliseconds: 500));
+      
       return offer;
     } catch (e) {
       log("Error making call: $e");
+      _callStatus = 'error';
+      _notifyCallStatusChanged();
       rethrow;
     }
   }
@@ -146,6 +203,9 @@ class WebRTCService {
     }
     
     try {
+      _callStatus = 'accepting';
+      _notifyCallStatusChanged();
+      
       // Set remote description
       await _peerConnection!.setRemoteDescription(offer);
       
@@ -171,9 +231,14 @@ class WebRTCService {
       _isCallActive = true;
       log("Incoming call accepted");
       
+      // รอเพื่อให้ได้ ICE Candidates ที่ดีที่สุด
+      await Future.delayed(Duration(milliseconds: 500));
+      
       return answer;
     } catch (e) {
       log("Error accepting call: $e");
+      _callStatus = 'error';
+      _notifyCallStatusChanged();
       rethrow;
     }
   }
@@ -189,6 +254,8 @@ class WebRTCService {
       log("Remote description set for answer");
     } catch (e) {
       log("Error handling answer: $e");
+      _callStatus = 'error';
+      _notifyCallStatusChanged();
       rethrow;
     }
   }
@@ -204,6 +271,7 @@ class WebRTCService {
       log("ICE candidate added");
     } catch (e) {
       log("Error adding ICE candidate: $e");
+      // ไม่เปลี่ยนสถานะการโทรเนื่องจากบางครั้ง ICE candidate อาจล้มเหลวโดยไม่กระทบการโทร
       rethrow;
     }
   }
@@ -223,8 +291,21 @@ class WebRTCService {
       log("Microphone ${enabled ? 'enabled' : 'disabled'}");
     } catch (e) {
       log("Error toggling microphone: $e");
-      rethrow;
     }
+  }
+  
+  // Check if microphone is muted
+  bool isMicrophoneMuted() {
+    if (_localStream == null) {
+      return true;
+    }
+    
+    final audioTracks = _localStream!.getAudioTracks();
+    if (audioTracks.isEmpty) {
+      return true;
+    }
+    
+    return !audioTracks.first.enabled;
   }
   
   // Toggle speaker
@@ -251,14 +332,19 @@ class WebRTCService {
     return _isCallActive;
   }
   
-  // End call
+  // End active call
   Future<void> endCall() async {
+    _callStatus = 'ending';
+    _notifyCallStatusChanged();
     await _endCall();
   }
   
-  // Internal method to end call
+  // Internal method to end call and clean up resources
   Future<void> _endCall() async {
     try {
+      _callStatus = 'ending';
+      _notifyCallStatusChanged();
+      
       // Close peer connection
       await _peerConnection?.close();
       
@@ -274,6 +360,9 @@ class WebRTCService {
       _pendingCandidates.clear();
       _isCallActive = false;
       
+      _callStatus = 'ended';
+      _notifyCallStatusChanged();
+      
       if (onCallEnded != null) {
         onCallEnded!();
       }
@@ -284,7 +373,30 @@ class WebRTCService {
       await initialize();
     } catch (e) {
       log("Error ending call: $e");
+      _callStatus = 'error';
+      _notifyCallStatusChanged();
+      // Still try to re-initialize
+      try {
+        await initialize();
+      } catch (_) {
+        // Ignore errors during re-initialization
+      }
       rethrow;
+    }
+  }
+  
+  // ตรวจสอบสถานะการเชื่อมต่อ
+  Future<bool> checkConnectivity() async {
+    try {
+      if (_peerConnection == null) {
+        return false;
+      }
+      
+      final connectionState = _peerConnection!.connectionState;
+      return connectionState == RTCPeerConnectionState.RTCPeerConnectionStateConnected;
+    } catch (e) {
+      log("Error checking connectivity: $e");
+      return false;
     }
   }
   
@@ -293,6 +405,8 @@ class WebRTCService {
     try {
       await _endCall();
       _peerConnection = null;
+      _callStatus = 'disposed';
+      _notifyCallStatusChanged();
       log("WebRTC service disposed");
     } catch (e) {
       log("Error disposing WebRTC service: $e");

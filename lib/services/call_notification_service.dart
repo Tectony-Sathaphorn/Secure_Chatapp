@@ -63,7 +63,7 @@ class CallNotificationService {
     try {
       // สร้าง Android notification details
       AndroidNotificationDetails androidPlatformChannelSpecifics =
-          AndroidNotificationDetails(
+          const AndroidNotificationDetails(
         'call_channel',
         'Incoming Calls',
         channelDescription: 'Channel for incoming call notifications',
@@ -71,21 +71,7 @@ class CallNotificationService {
         priority: Priority.high,
         ongoing: true,
         autoCancel: false,
-        sound: const RawResourceAndroidNotificationSound('ringtone'),
-        actions: <AndroidNotificationAction>[
-          AndroidNotificationAction(
-            'accept',
-            'Accept',
-            icon: DrawableResourceAndroidBitmap('ic_accept_call'),
-            showsUserInterface: true,
-          ),
-          AndroidNotificationAction(
-            'reject',
-            'Reject',
-            icon: DrawableResourceAndroidBitmap('ic_reject_call'),
-            showsUserInterface: true,
-          ),
-        ],
+        sound: RawResourceAndroidNotificationSound('ringtone'),
       );
       
       // สร้าง iOS notification details
