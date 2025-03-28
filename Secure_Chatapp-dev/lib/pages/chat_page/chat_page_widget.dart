@@ -384,6 +384,34 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
     }
   }
 
+  // เพิ่มฟังก์ชัน getOtherUserId
+  Future<String?> getOtherUserId() async {
+    try {
+      // ดึงข้อมูลแชท
+      final chatSnapshot = await widget.recieveChat!.get();
+      if (!chatSnapshot.exists) {
+        return null;
+      }
+
+      // ดึงข้อมูล users จากแชท
+      final chatData = chatSnapshot.data() as Map<String, dynamic>;
+      final List<dynamic> users = chatData['users'] ?? [];
+
+      // หาผู้ใช้อื่นในแชท
+      for (final userRef in users) {
+        final userId = (userRef as DocumentReference).id;
+        if (userId != currentUserUid) {
+          return userId;
+        }
+      }
+
+      return null;
+    } catch (e) {
+      print('Error getting other user ID: $e');
+      return null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -584,11 +612,125 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                     size: 24.0,
                                   ),
                                   onPressed: () async {
-                                    // Voice call feature not implemented
+                                    // เริ่มการโทรเสียง
+                                    // ดึงข้อมูล ID ของอีกฝ่าย
+                                    final currentChatDoc = await FirebaseFirestore.instance
+                                        .collection('chats')
+                                        .doc(widget.recieveChat!.id)
+                                        .get();
+                                    
+                                    if (currentChatDoc.exists) {
+                                      final chatData = currentChatDoc.data() as Map<String, dynamic>;
+                                      final usersList = chatData['users'] as List<dynamic>?;
+                                      
+                                      if (usersList != null && usersList.isNotEmpty) {
+                                        String? otherUserId;
+                                        
+                                        // หา userId ของอีกฝ่าย
+                                        for (final userRef in usersList) {
+                                          final userId = (userRef as DocumentReference).id;
+                                          if (userId != currentUserUid) {
+                                            otherUserId = userId;
+                                            break;
+                                          }
+                                        }
+                                        
+                                        if (otherUserId != null) {
+                                          // ดึงชื่อผู้ใช้จาก functions
+                                          String displayName = functions.getOtherUser(
+                                            chatPageChatsRecord.userNames?.toList() ?? [],
+                                            currentUserDisplayName ?? '',
+                                          );
+                                          
+                                          // สร้างห้องสนทนาใหม่
+                                          final roomRef = FirebaseFirestore.instance.collection('callRooms').doc();
+                                          final String roomId = roomRef.id;
+                                          
+                                          // ไปยังหน้าโทรเสียง
+                                          context.pushNamed(
+                                            'voiceCall',
+                                            queryParameters: {
+                                              'otherUserId': otherUserId,
+                                              'otherUserName': displayName,
+                                              'roomId': roomId,
+                                              'isInitiator': 'true',
+                                            },
+                                          );
+                                          return;
+                                        }
+                                      }
+                                    }
+                                    
+                                    // แสดงข้อความถ้าไม่สามารถโทรได้
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text(
-                                            'ฟีเจอร์การโทรกำลังอยู่ระหว่างการพัฒนา'),
+                                        content: Text('ไม่สามารถเริ่มการโทรได้'),
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 5.0, 0.0),
+                                child: FlutterFlowIconButton(
+                                  borderRadius: 8.0,
+                                  buttonSize: 40.0,
+                                  icon: Icon(
+                                    Icons.videocam,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    size: 24.0,
+                                  ),
+                                  onPressed: () async {
+                                    // เริ่มการโทรวิดีโอ
+                                    // ดึงข้อมูล ID ของอีกฝ่าย
+                                    final currentChatDoc = await FirebaseFirestore.instance
+                                        .collection('chats')
+                                        .doc(widget.recieveChat!.id)
+                                        .get();
+                                    
+                                    if (currentChatDoc.exists) {
+                                      final chatData = currentChatDoc.data() as Map<String, dynamic>;
+                                      final usersList = chatData['users'] as List<dynamic>?;
+                                      
+                                      if (usersList != null && usersList.isNotEmpty) {
+                                        String? otherUserId;
+                                        
+                                        // หา userId ของอีกฝ่าย
+                                        for (final userRef in usersList) {
+                                          final userId = (userRef as DocumentReference).id;
+                                          if (userId != currentUserUid) {
+                                            otherUserId = userId;
+                                            break;
+                                          }
+                                        }
+                                        
+                                        if (otherUserId != null) {
+                                          // ดึงชื่อผู้ใช้จาก functions
+                                          String displayName = functions.getOtherUser(
+                                            chatPageChatsRecord.userNames?.toList() ?? [],
+                                            currentUserDisplayName ?? '',
+                                          );
+                                          
+                                          // ไปยังหน้าเริ่มการโทรวิดีโอ
+                                          context.pushNamed(
+                                            'joinVideoCall',
+                                            queryParameters: {
+                                              'otherUserId': otherUserId,
+                                              'otherUserName': displayName,
+                                            },
+                                          );
+                                          return;
+                                        }
+                                      }
+                                    }
+                                    
+                                    // แสดงข้อความถ้าไม่สามารถโทรได้
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('ไม่สามารถเริ่มการโทรวิดีโอได้'),
                                         duration: Duration(seconds: 3),
                                       ),
                                     );
